@@ -28,9 +28,6 @@ def write_csv_data(csv_file_path, header, data):
         writer = csv.writer(csv_file, delimiter = ';', quotechar = '"')
         writer.writerow(header)
         writer.writerows(data)
-    
-def format_date(date):
-    return  datetime.strptime(date,"%Y-%m-%d").strftime("%d %b %Y")
 
 def time_record_to_decimal(time_string):
     (h, m, s) = time_string.split(':')
@@ -65,15 +62,7 @@ if __name__ == '__main__':
         "Amount",
         "Currency",
         "Account",
-        "Amount received",
-        "Account (to)",
-        "Balance",
-        "Category",
         "Description",
-        "Transaction Type", 
-        "Type",
-        "Agent",
-        "Check #",
         "Class"
     ]
     csv_data = []
@@ -85,7 +74,6 @@ if __name__ == '__main__':
             email = employee["Email (email)"]
             hourly_rate = get_hourly_rate(employee)
             currency = get_currency(employee)
-            date = format_date(date)
             hours = time_record_to_decimal(time)
             account_id = get_account_id_from_email(email)
             project = time_record["Project"]
@@ -96,7 +84,7 @@ if __name__ == '__main__':
                 currency_symbol = "$"
             else:
                 currency_symbol = ""
-            csv_data.append([date,f"-{amount}",currency,f"{account_id}:salary:{currency.lower()}","","","","",f"{amount} ({hours}h @ {hourly_rate} {currency})","Expense","","","",f"project:{project}"])
+            csv_data.append([date,f"-{amount}",currency,f"{account_id}:salary:{currency.lower()}",f"{amount} ({hours}h @ {hourly_rate} {currency})",f"project:{project}"])
         else:
             print(f"ERROR: cant' find employee in the CSV: {hubstaff_member}")
 
