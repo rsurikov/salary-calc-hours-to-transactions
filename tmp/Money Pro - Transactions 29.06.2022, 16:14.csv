@@ -1,0 +1,10 @@
+Date;Amount;Account;Amount received;Account (to);Balance;Category;Description;Transaction Type;Agent;Check #;Class;
+29 Jun 2022, 16:12:01;0,00 $;dpankratov:salary:usd;;;0,00 $;; ;Opening Balance;;;;
+29 Jun 2022, 16:12:33;0,00 $;dpankratov:vacation:usd;;;0,00 $;; ;Opening Balance;;;;
+29 Jun 2022, 16:12:52;100,00 $;dpankratov:salary:usd;;;-100,00 $;Engineers & Tools: Engineers ; Test;Expense;;;;
+29 Jun 2022, 16:14:57;50,00 $;payoneer:usd;50,00 $;dpankratov:salary:usd;19 960,37 $;; ;Money Transfer;;;;
+29 Jun 2022, 16:19:50;6,00 $;dpankratov:vacation:usd;;;-6,00 $;Engineers & Tools: Engineers ; Test;Expense;;;;
+29 Jun 2022, 16:24:56;0,00 ₽;adityativ:salary:rub;;;0,00 ₽;; ;Opening Balance;;;;
+29 Jun 2022, 16:25:06;0,00 ₽;adityativ:vacation:rub;;;0,00 ₽;; ;Opening Balance;;;;
+29 Jun 2022, 16:25:18;10 000,00 ₽;adityativ:salary:rub;;;-10 000,00 ₽;Engineers & Tools: Engineers ; Test;Expense;;;;
+29 Jun 2022, 16:25:57;600,00 ₽;adityativ:vacation:rub;;;-600,00 ₽;Engineers & Tools: Engineers ; Test;Expense;;;;
