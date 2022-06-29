@@ -104,7 +104,7 @@ if __name__ == '__main__':
                 currency_symbol = "$"
             else:
                 currency_symbol = ""
-            csv_data.append([date,f"-{salary_amount}",currency,f"{account_id}:salary:{currency.lower()}",f"{salary_amount} {currency} ({hours}h @ {hourly_rate} {currency})- {project}",f"project:{project}",project])
+            csv_data.append([date,f"-{salary_amount}",currency,f"{account_id}:salary:{currency.lower()}",f"{salary_amount} {currency} ({hours}h @ {hourly_rate} {currency}) - {project}",f"project:{project}",project])
             if vacation_percentage > 0:
                 csv_data.append([date,f"-{vacation_amount}",currency,f"{account_id}:vacation:{currency.lower()}",f"+{vacation_percentage*100}% of {salary_amount} {currency} ({hours}h @ {hourly_rate} {currency}) - {project}",f"project:{project}",project])
         else:
