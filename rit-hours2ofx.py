@@ -10,6 +10,12 @@ employees_csv_file_path = "/Users/rsurikov/GitHub/salary-calc-hours-to-transacti
 hubstaff_csv_file_path = "/Users/rsurikov/GitHub/salary-calc-hours-to-transactions/data/hubstaff.csv"
 moneypro_csv_file_path = "/Users/rsurikov/GitHub/salary-calc-hours-to-transactions/csv/moneypro.csv"
 
+aliases = {
+    "Lera Sablina": "Valeriya Sablina",
+    "Nikita Kryuchkov": "Nikita Kruchkov",
+    "Vasily Eliseev": "Vasilii Eliseev",
+}
+
 def read_csv_data(csv_file_path):
     csv_header = []
     csv_data = []
@@ -37,6 +43,8 @@ def get_account_id_from_email(email):
     return email.split('@')[0]
 
 def get_employee_by_name(employees,employee_name):
+    if employee_name in aliases:
+        employee_name = aliases[employee_name]
     return next((employee for employee in employees if employee["Task Name"].strip() == employee_name.strip()), {})
 
 def get_hourly_rate(employee):
@@ -45,14 +53,23 @@ def get_hourly_rate(employee):
     elif employee["Hourly rate (Rub) (currency)"]:
         return float(employee["Hourly rate (Rub) (currency)"])
 
+def get_vacation_percentage(employee):
+    if employee["Отпуск % (number)"]:
+        return float(employee["Отпуск % (number)"])
+    else:
+        return float(0)
+
 def get_currency(employee):
     if employee["Hourly rate ($) (currency)"]:
         return "USD"
     elif employee["Hourly rate (Rub) (currency)"]:
         return "RUB"
 
-def calc_amount(hours, hourly_rate):
+def calc_salary_amount(hours, hourly_rate):
     return round(hours * hourly_rate, 2)
+
+def calc_vacation_amount(amount, vacation_percentage):
+    return round(amount * vacation_percentage, 2)
 
 if __name__ == '__main__':
     hubstaff = read_csv_data(hubstaff_csv_file_path)
@@ -63,7 +80,8 @@ if __name__ == '__main__':
         "Currency",
         "Account",
         "Description",
-        "Class"
+        "Class",
+        "Category"
     ]
     csv_data = []
     for time_record in hubstaff:
@@ -71,20 +89,24 @@ if __name__ == '__main__':
         if employee := get_employee_by_name(employees, hubstaff_member):
             date = time_record["Date"]
             time = time_record["Time"]
+            vacation_percentage = get_vacation_percentage(employee)
             email = employee["Email (email)"]
             hourly_rate = get_hourly_rate(employee)
             currency = get_currency(employee)
             hours = time_record_to_decimal(time)
             account_id = get_account_id_from_email(email)
             project = time_record["Project"]
-            amount = calc_amount(hourly_rate,hours)
+            salary_amount = calc_salary_amount(hourly_rate, hours)
+            vacation_amount = calc_vacation_amount(salary_amount, vacation_percentage)
             if currency == "RUB":
                 currency_symbol = "₽"
             elif currency == "USD":
                 currency_symbol = "$"
             else:
                 currency_symbol = ""
-            csv_data.append([date,f"-{amount}",currency,f"{account_id}:salary:{currency.lower()}",f"{amount} ({hours}h @ {hourly_rate} {currency})",f"project:{project}"])
+            csv_data.append([date,f"-{salary_amount}",currency,f"{account_id}:salary:{currency.lower()}",f"{salary_amount} {currency} ({hours}h @ {hourly_rate} {currency})- {project}",f"project:{project}",project])
+            if vacation_percentage > 0:
+                csv_data.append([date,f"-{vacation_amount}",currency,f"{account_id}:vacation:{currency.lower()}",f"+{vacation_percentage*100}% of {salary_amount} {currency} ({hours}h @ {hourly_rate} {currency}) - {project}",f"project:{project}",project])
         else:
             print(f"ERROR: cant' find employee in the CSV: {hubstaff_member}")
 
