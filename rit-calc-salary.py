@@ -70,7 +70,7 @@ for index, time_record in time_records.iterrows():
         if amount > 0:
             user_name = get_employee_username_by_email(employee["email"])
             account_salary = f"{user_name}:salary:{employee['currency'].lower()}"
-            description = f"{amount} {employee['currency']} ({hours}h @ {employee['value']} {employee['currency'].lower()}) - {time_record['Project']}"
+            description = f"{amount} {employee['currency']} ({hours}h @ {employee['value']} {employee['currency'].lower()}) - {time_record['Project']} - @{user_name}"
             category = f"project:{time_record['Project']}"
             transactions.loc[new_index] = [time_record["Date"],-1 * amount,employee["currency"],account_salary,description,category,category]
             vacation_p = float(employee['vacation'])
